@@ -2,15 +2,139 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.cincuentazo.controller.CincuentazoController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
-
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="511.0" prefWidth="639.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cincuentazo.controller.CincuentazoController">
+   <top>
+      <HBox fx:id="cartasJugador2HBox" alignment="CENTER" prefHeight="100.0" prefWidth="517.0" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="cart4Player2" fitHeight="101.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@imagen/rb_21.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cart3Player2" fitHeight="101.0" fitWidth="59.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@imagen/rb_21.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cart2Player2" fitHeight="101.0" fitWidth="59.0" layoutX="69.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@imagen/rb_21.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cart1Player2" fitHeight="101.0" fitWidth="59.0" layoutX="128.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@imagen/rb_21.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+   </top>
+   <bottom>
+      <HBox fx:id="cartasJugador1HBox" alignment="CENTER" onMouseClicked="#oncartasJugador1HBoxClicked" prefHeight="141.0" prefWidth="679.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="cart1Player1" fitHeight="124.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@imagen/clubs/Asclubs.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cart2Player1" fitHeight="124.0" fitWidth="106.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@imagen/diamonds/Asdiamonds.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cart3Player1" fitHeight="124.0" fitWidth="106.0" layoutX="69.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@imagen/hearts/Ashearts.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cart4Player1" fitHeight="124.0" fitWidth="106.0" layoutX="128.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@imagen/spades/Asspades.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+   </bottom>
+   <left>
+      <VBox fx:id="cartasJugador4HBox" alignment="CENTER" prefHeight="174.0" prefWidth="101.0" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="cart1Player4" fitHeight="59.0" fitWidth="101.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@imagen/rb_21h.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cart2Player4" fitHeight="59.0" fitWidth="101.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@imagen/rb_21h.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cart3Player4" fitHeight="59.0" fitWidth="101.0" layoutX="10.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@imagen/rb_21h.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cart4Player4" fitHeight="59.0" fitWidth="101.0" layoutX="10.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@imagen/rb_21h.png" />
+               </image>
+            </ImageView>
+         </children>
+      </VBox>
+   </left>
+   <right>
+      <VBox fx:id="cartasJugador3HBox" alignment="CENTER" prefHeight="221.0" prefWidth="100.0" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="cart4Player3" fitHeight="59.0" fitWidth="101.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@imagen/rb_21h.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cart3Player3" fitHeight="59.0" fitWidth="101.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@imagen/rb_21h.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cart2Player3" fitHeight="59.0" fitWidth="101.0" layoutX="10.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@imagen/rb_21h.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cart1Player3" fitHeight="59.0" fitWidth="101.0" layoutX="10.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@imagen/rb_21h.png" />
+               </image>
+            </ImageView>
+         </children>
+      </VBox>
+   </right>
+   <center>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="cartaEnMesaImageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@imagen/bufon.png" />
+               </image>
+            </ImageView>
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+               <children>
+                  <ImageView fx:id="mazoImageView" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#onmazoImageViewClicked" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@imagen/baraja.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="sumaMesaLabel" text="Suma de la mesa:" />
+               </children>
+            </VBox>
+         </children>
+         <opaqueInsets>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </opaqueInsets>
+      </HBox>
+   </center>
+</BorderPane>
