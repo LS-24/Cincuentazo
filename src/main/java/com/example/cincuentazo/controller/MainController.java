@@ -27,22 +27,36 @@ public class MainController {
     @FXML
     private MenuButton numerodeJugadoresMenuButton;
 
+    /**
+     *
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void onIniciarJuegoButtonClicked(MouseEvent event)throws IOException {
         CincuentazoView.getInstance();
         MainView.getInstance().close();
     }
 
+    /**
+     *
+     * @param event
+     */
     @FXML
     void onInstruccionesButtonClicked(MouseEvent event)  {
 
     }
+
 
     @FXML
     void onNumerodeJUgadoresAction(ActionEvent event) {
 
     }
 
+    /**
+     *
+     * @param event
+     */
     @FXML
     void onitem1(ActionEvent event) {
         numeroDeJugadoresTextField.setText("2 jugadores en la mesa");

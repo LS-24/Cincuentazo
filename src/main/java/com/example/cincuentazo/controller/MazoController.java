@@ -13,7 +13,9 @@ public class MazoController {
         crearMazo();
     }
 
-
+    /**
+     *
+     */
     private void crearMazo() {
         String[] palos = {"hearts", "diamonds", "clubs", "spades"};
         String[] valores = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "As"};
@@ -33,6 +35,11 @@ public class MazoController {
         }
     }
 
+    /**
+     *
+     * @param valor
+     * @return
+     */
     private int obtenerValor(String valor) {
         switch (valor) {
             case "J":
@@ -46,10 +53,19 @@ public class MazoController {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Carta> getCartas() {
         return cartas;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Carta getCartaPorId(int id) {
         for (Carta carta : cartas) {
             if (carta.getId() == id) {
@@ -58,6 +74,5 @@ public class MazoController {
         }
         return null;
     }
-
 
 }

@@ -38,6 +38,10 @@ public class CincuentazoController {
     @FXML
     private Label sumaMesaLabel;
 
+    /**
+     *
+     * @param event
+     */
     @FXML
     void oncartasJugador1HBoxClicked(MouseEvent event) {
 
@@ -57,6 +61,10 @@ public class CincuentazoController {
 
     }
 
+    /**
+     *
+     * @param event
+     */
     @FXML
     void onmazoImageViewClicked(MouseEvent event) {
 
@@ -76,24 +84,20 @@ public class CincuentazoController {
         }
 
         cargarImagen( "/" + carta.getImagen() );
-//        Image imagen = cargarImagen(carta.getImagen());
-//
-//        // Establecer la imagen en el ImageView
-//        cartaEnMesaImageView.setImage(imagen);
-//
-//
-//        System.out.println(getClass().getResource(carta.getImagen()));
-//
+        cartaEnMesaImageView.setImage(new Image("file:/" + carta.getImagen()));
     }
 
+    /**
+     *
+     * @param rutaRelativa
+     * @return
+     */
     private Image cargarImagen(String rutaRelativa) {
         URL url = getClass().getResource("/" + rutaRelativa);
 
         if (url != null) {
-            // Si la URL es válida, creamos la imagen
             return new Image(url.toExternalForm());
         } else {
-            // Si la URL es null, significa que no se encontró el recurso
             System.out.println("Imagen no encontrada: " + rutaRelativa);
             return null;
         }
