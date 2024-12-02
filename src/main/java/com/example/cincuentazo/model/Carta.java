@@ -22,32 +22,36 @@ public class Carta {
     }
 
     /**
-     *
+     * getId
      * @return
+     * returns the identity that was assigned to the letter
      */
     public int getId() {
         return id;
     }
 
     /**
-     *
+     * getName
      * @return
+     * returns card name
      */
     public String getNombre() {
         return nombre;
     }
 
     /**
-     *
+     * getImagen
      * @return
+     * returns the name of the card image
      */
     public String getImagen() {
         return imagen;
     }
 
     /**
-     *
+     * getValor
      * @return
+     * returns value of the card
      */
     public int getValor() {
         return valor;
