@@ -97,8 +97,9 @@ public class CincuentazoController {
         int numJugadores = MainController.numJugadores;
         if (juego == null) {
             System.out.println("Inicializando el juego...");
-            juego = new CincuentazoGame(this, numJugadores);  // Asumimos que el juego tiene 2 jugadores
+            juego = new CincuentazoGame(this, numJugadores);
         }
+        startUpdatingWithTimeline();
     }
 
     public void actualizarCartaJugador(String imagenPath) {
