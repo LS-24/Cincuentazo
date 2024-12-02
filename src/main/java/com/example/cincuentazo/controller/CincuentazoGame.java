@@ -79,7 +79,7 @@ public class CincuentazoGame {
      * @param jugadorIndex
      * @return
      */
-    private String[] obtenerImagenesCartasJugador(int jugadorIndex) {
+    protected String[] obtenerImagenesCartasJugador(int jugadorIndex) {
         Player jugador = jugadores.get(jugadorIndex);
         ArrayList<Carta> mano = jugador.getMano();
         String[] imagenes = new String[mano.size()];

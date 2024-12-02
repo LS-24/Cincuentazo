@@ -12,6 +12,8 @@ import java.io.IOException;
 
 public class MainController extends CincuentazoController {
 
+    protected static int numJugadores = 1;
+
     @FXML
     private Button iniciarJuegoButton, instruccionesButton;;
 
@@ -44,12 +46,12 @@ public class MainController extends CincuentazoController {
             System.out.println("Juego inicializado correctamente.");
         }
 
-
         System.out.println("Juego inicializado en el controlador: " + juego);
 
         CincuentazoView.getInstance();
 
         MainView.getInstance().close();
+
     }
 
     /**
@@ -110,10 +112,10 @@ public class MainController extends CincuentazoController {
      * @return
      * Número de jugadores
      */
-    private int obtenerNumeroJugadores() {
+    public int obtenerNumeroJugadores() {
 
         String texto = numeroDeJugadoresTextField.getText();
-        int numJugadores = 1;
+
         switch (texto) {
             case "2 jugadores en la mesa":
                 numJugadores = 2;

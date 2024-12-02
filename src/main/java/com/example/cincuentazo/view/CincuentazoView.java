@@ -1,7 +1,6 @@
 package com.example.cincuentazo.view;
 
 import com.example.cincuentazo.controller.CincuentazoController;
-import com.example.cincuentazo.controller.MainController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,6 +16,7 @@ public class CincuentazoView extends Stage {
     public CincuentazoView() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cincuentazo/cincuentazo-View.fxml"));
         Parent root = loader.load();
+        CincuentazoController controller = loader.getController();
         Scene scene = new Scene(root);
         setScene(scene);
         setTitle("Cincuentazo");

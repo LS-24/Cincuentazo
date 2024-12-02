@@ -38,22 +38,22 @@
    <bottom>
       <HBox fx:id="cartasJugador1HBox" alignment="CENTER" onMouseClicked="#oncartasJugador1HBoxClicked" prefHeight="141.0" prefWidth="679.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="cart1Player1" fitHeight="124.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="cart1Player1ImageView" fitHeight="124.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@imagen/clubs/Asclubs.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="cart2Player1" fitHeight="124.0" fitWidth="106.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="cart2Player1ImageView" fitHeight="124.0" fitWidth="106.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@imagen/diamonds/Asdiamonds.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="cart3Player1" fitHeight="124.0" fitWidth="106.0" layoutX="69.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="cart3Player1ImageView" fitHeight="124.0" fitWidth="106.0" layoutX="69.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@imagen/hearts/Ashearts.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="cart4Player1" fitHeight="124.0" fitWidth="106.0" layoutX="128.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="cart4Player1ImageView" fitHeight="124.0" fitWidth="106.0" layoutX="128.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@imagen/spades/Asspades.png" />
                </image>
