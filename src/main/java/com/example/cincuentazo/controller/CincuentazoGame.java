@@ -15,6 +15,7 @@ public class CincuentazoGame {
     private ArrayList<Carta> mazo;
     public ArrayList<Carta> cartasEnMesa;
     private int turnoJugador;
+    protected boolean esTurnoDeMaquina;
 
     /**
      * @param controller
@@ -29,6 +30,7 @@ public class CincuentazoGame {
         cartasEnMesa = new ArrayList<>();
         mazo = new MazoController().getCartas();
         turnoJugador = 0;
+        esTurnoDeMaquina = false;
         iniciarJuego(numJugadores);
 
         System.out.println("Juego iniciado correctamente.");
@@ -36,6 +38,50 @@ public class CincuentazoGame {
         System.out.println("Número de cartas en el mazo: " + mazo.size());
         System.out.println("Número de cartas en la mesa: " + cartasEnMesa.size());
     }
+
+    /**
+     *
+     */
+    public void siguienteTurno() {
+
+        turnoJugador = (turnoJugador + 1) % jugadores.size();
+
+        if (turnoJugador == 1) {
+            esTurnoDeMaquina = true;
+            jugarTurnoDeLaMaquina();
+        } else {
+            esTurnoDeMaquina = false;
+            controller.actualizarInterfazDeTurno();
+        }
+    }
+
+    /**
+     *
+     */
+    public void jugarTurnoDeLaMaquina() {
+        Player jugadorMaquina = jugadores.get(1);
+        ArrayList<Carta> manoMaquina = jugadorMaquina.getMano();
+
+        Random random = new Random();
+        int cartaIndex = random.nextInt(manoMaquina.size());
+
+        Carta cartaSeleccionada = manoMaquina.get(cartaIndex);
+        System.out.println("La máquina ha jugado: " + cartaSeleccionada.getNombre());
+
+        cartasEnMesa.add(cartaSeleccionada);
+        jugadorMaquina.borrarCarta(cartaSeleccionada);
+
+        controller.actualizarCartaEnMesa(cartaSeleccionada.getImagen());
+
+        if (!mazo.isEmpty()) {
+            Carta cartaDelMazo = mazo.remove(0);
+            jugadorMaquina.agregarCarta(cartaDelMazo);
+            System.out.println("La máquina ha tomado una carta del mazo: " + cartaDelMazo.getNombre());
+        }
+
+        siguienteTurno();
+    }
+
 
     /**
      *
@@ -108,21 +154,33 @@ public class CincuentazoGame {
      * @param cartaIndex
      */
     public void seleccionarCartaJugador(int cartaIndex) {
-        Player jugador = jugadores.get(0);
-        Carta cartaSeleccionada = (Carta) jugador.getMano().get(cartaIndex);
-        System.out.println("El jugador seleccionado es: " + jugador.getName());
-        System.out.println("La carta seleccionada es: " + cartaSeleccionada.getNombre());
+        if (cartaIndex < 0 || cartaIndex >= jugadores.get(0).getMano().size()) {
+            System.out.println("Índice de carta inválido: " + cartaIndex);
+            return;
+        }
+
+        Player jugador = jugadores.get(turnoJugador);
+        Carta cartaSeleccionada = jugador.getMano().get(cartaIndex);
+        System.out.println("El jugador " + jugador.getName() + " ha jugado: " + cartaSeleccionada.getNombre());
+
+        System.out.println("Jugador seleccionado: " + jugador.getName());
+        System.out.println("Carta seleccionada: " + cartaSeleccionada.getNombre());
 
         cartasEnMesa.add(cartaSeleccionada);
         jugador.borrarCarta(cartaSeleccionada);
 
         System.out.println("Cartas restantes en la mano de " + jugador.getName() + ":");
+        jugador.getMano().forEach(c -> System.out.println(c.getNombre()));
 
-        controller.actualizarCartaEnMesa(cartaSeleccionada.getImagen());
+        //controller.actualizarCartaEnMesa(cartaSeleccionada.getImagen());
 
-        if (mazo.isEmpty()) {
-            devolverCartasAlMazo();
+        if (!mazo.isEmpty()) {
+            Carta cartaDelMazo = mazo.remove(0);
+            jugador.agregarCarta(cartaDelMazo);
+            System.out.println("El jugador " + jugador.getName() + " ha tomado una carta del mazo: " + cartaDelMazo.getNombre());
         }
+
+        siguienteTurno();
     }
 
     /**
@@ -136,6 +194,7 @@ public class CincuentazoGame {
             jugador.agregarCarta(cartaDelMazo);
 
             controller.actualizarCartasJugador(obtenerImagenesCartasJugador(jugadorIndex));
+            System.out.println("El jugador " + jugador.getName() + " ha tomado una carta del mazo: " + cartaDelMazo.getNombre());
         }
     }
 

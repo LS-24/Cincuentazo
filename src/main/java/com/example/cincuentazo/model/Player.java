@@ -61,6 +61,11 @@ public class Player {
      * remove a card from the player's hand
      */
     public void borrarCarta(Carta carta) {
-        mano.remove(carta);
+        if (carta != null && mano.contains(carta)) {
+            mano.remove(carta);
+            System.out.println("Carta " + carta.getNombre() + " eliminada correctamente.");
+        } else {
+            System.out.println("La carta no se encuentra en la mano.");
+        }
     }
 }

@@ -12,13 +12,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class CincuentazoController {
 
+    protected MazoController mazo = new MazoController();
     private CincuentazoGame juego;
-    private int cartaIndex = -1;
+    private int cartaIndex = 0;
 
     @FXML
     private ImageView cart1Player1ImageView, cart2Player1ImageView, cart3Player1ImageView, cart4Player1ImageView;
@@ -44,18 +44,17 @@ public class CincuentazoController {
     @FXML
     private Label sumaMesaLabel;
 
+    /**
+     *
+     */
     @FXML
     private void initialize() {
         System.out.println("Controlador inicializado correctamente");
         if (cart1Player1ImageView == null) {
             System.out.println("cart1Player1ImageView es null. Creando uno nuevo.");
-            cart1Player1ImageView = new ImageView();  // Crear uno nuevo de forma programática
-            // Puedes configurar las propiedades del ImageView aquí si es necesario
+            cart1Player1ImageView = new ImageView();
             cart1Player1ImageView.setFitHeight(124.0);
             cart1Player1ImageView.setFitWidth(106.0);
-            //cartasJugador1HBox.getChildren().add(cart1Player1ImageView);
-            // Por ejemplo, si tienes un contenedor donde agregarlo:
-            // myAnchorPane.getChildren().add(cart1Player1ImageView);
         } else {
             System.out.println("cart1Player1ImageView está inicializado.");
         }
@@ -82,7 +81,6 @@ public class CincuentazoController {
             cart4Player1ImageView = new ImageView();
             cart4Player1ImageView.setFitHeight(124.0);
             cart4Player1ImageView.setFitWidth(106.0);
-
         } else {
             System.out.println("cart1Player1ImageView está inicializado.");
         }
@@ -99,19 +97,7 @@ public class CincuentazoController {
             System.out.println("Inicializando el juego...");
             juego = new CincuentazoGame(this, numJugadores);
         }
-        startUpdatingWithTimeline();
     }
-
-    public void actualizarCartaJugador(String imagenPath) {
-        if (cart1Player1ImageView != null) {
-            cart1Player1ImageView.setImage(new Image(imagenPath));
-        } else {
-            System.out.println("El ImageView es null.");
-        }
-    }
-
-    protected MazoController mazo = new MazoController();
-
 
     /**
      *
@@ -123,18 +109,21 @@ public class CincuentazoController {
         System.out.println("Hiciste clic en la carta con ID: " + source);
 
         if (source.equals("cart1Player1ImageView")) {
-            cartaIndex = 1;
-            juego.seleccionarCartaJugador(cartaIndex);
+            cartaIndex = 0;
             cartaEnMesaImageView.setImage(cart1Player1ImageView.getImage());
+            cart1Player1ImageView.setVisible(false);
         } else if (source.equals("cart2Player1ImageView")) {
-            cartaIndex = 2;
+            cartaIndex = 1;
             cartaEnMesaImageView.setImage(cart2Player1ImageView.getImage());
+            cart2Player1ImageView.setVisible(false);
         } else if (source.equals("cart3Player1ImageView")) {
-            cartaIndex = 3;
+            cartaIndex = 2;
             cartaEnMesaImageView.setImage(cart3Player1ImageView.getImage());
+            cart3Player1ImageView.setVisible(false);
         } else if (source.equals("cart4Player1ImageView")) {
-            cartaIndex = 4;
+            cartaIndex = 3;
             cartaEnMesaImageView.setImage(cart4Player1ImageView.getImage());
+            cart4Player1ImageView.setVisible(false);
         }
 
         System.out.println("Se hizo clic en la carta " + cartaIndex);
@@ -147,10 +136,29 @@ public class CincuentazoController {
 
     /**
      *
+     */
+    protected void actualizarInterfazDeTurno() {
+        if (juego.esTurnoDeMaquina) {
+            cart1Player1ImageView.setDisable(true);
+            cart2Player1ImageView.setDisable(true);
+            cart3Player1ImageView.setDisable(true);
+            cart4Player1ImageView.setDisable(true);
+        } else {
+            cart1Player1ImageView.setDisable(false);
+            cart2Player1ImageView.setDisable(false);
+            cart3Player1ImageView.setDisable(false);
+            cart4Player1ImageView.setDisable(false);
+        }
+    }
+
+    /**
+     *
      * @param event
      */
     @FXML
     void onmazoImageViewClicked(MouseEvent event) {
+
+        mostrarCartasJugador();
 
         Random random = new Random();
 
@@ -166,7 +174,18 @@ public class CincuentazoController {
         }
 
         juego.tocarMazo(0);
-        cartaEnMesaImageView.setImage(new Image(String.valueOf(getClass().getResource("/com/example/cincuentazo/" + carta.getImagen()))));
+        startUpdatingWithTimeline();
+
+    }
+
+    /**
+     *
+     */
+    private void mostrarCartasJugador() {
+        cart1Player1ImageView.setVisible(true);
+        cart2Player1ImageView.setVisible(true);
+        cart3Player1ImageView.setVisible(true);
+        cart4Player1ImageView.setVisible(true);
     }
 
     /**
@@ -174,17 +193,8 @@ public class CincuentazoController {
      * @param imagen
      */
     public void actualizarCartaEnMesa(String imagen) {
-//       ArrayList<Carta> cartaACtualizar = new ArrayList<>();
-//        cartaACtualizar.add(juego.cartasEnMesa.get(0));
-//
-//        if (juego.cartasEnMesa.isEmpty()) {
-//
-//            System.out.println("No hay cartas en la mesa para mostrar.");
-//
-//        } else {
-//            cartaEnMesaImageView.setImage(new Image(String.valueOf(getClass().getResource("/com/example/cincuentazo/" + juego.cartasEnMesa.get(0).getImagen()))));
-//        System.out.println("actualizarCartaEnMesa"+"/com/example/cincuentazo/" + cartaACtualizar.get(0).getImagen());
-//        }
+        cartaEnMesaImageView.setImage(new Image(String.valueOf(getClass().getResource("/com/example/cincuentazo/" + imagen))));
+        System.out.println("actualizarCartaEnMesa imagen: " + imagen);
     }
 
     /**
@@ -210,17 +220,15 @@ public class CincuentazoController {
         }
     }
 
+    /**
+     *
+     */
     public void startUpdatingWithTimeline() {
 
         String[] imagenesCartas = juego.obtenerImagenesCartasJugador(0);
 
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {actualizarCartasJugador(imagenesCartas);}));
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
-
-            actualizarCartasJugador(imagenesCartas);
-        }));
-
-        timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
 }

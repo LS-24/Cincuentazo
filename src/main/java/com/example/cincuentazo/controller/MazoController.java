@@ -7,7 +7,7 @@ import java.util.Collections;
 
 public class MazoController {
 
-    private ArrayList<Carta> cartas;
+    protected ArrayList<Carta> cartas;
 
     public MazoController() {
         cartas = new ArrayList<>();
