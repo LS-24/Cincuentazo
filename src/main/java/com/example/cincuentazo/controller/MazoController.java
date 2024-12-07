@@ -38,7 +38,7 @@ public class MazoController {
     }
 
     private void barajarMazo() {
-        Collections.shuffle(cartas);  // Baraja el mazo
+        Collections.shuffle(cartas);
     }
 
     /**

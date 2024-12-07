@@ -1,6 +1,7 @@
 package com.example.cincuentazo.controller;
 
 import com.example.cincuentazo.model.Carta;
+import com.example.cincuentazo.model.Player;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -12,6 +13,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class CincuentazoController {
@@ -36,13 +39,17 @@ public class CincuentazoController {
     protected ImageView mazoImageView, cartaEnMesaImageView;
 
     @FXML
-    private HBox cartasJugador1HBox, cartasJugador2HBox, CartasMesaHBox;
+    protected HBox cartasJugador1HBox;
+    @FXML
+    private HBox cartasJugador2HBox;
+    @FXML
+    private HBox CartasMesaHBox;
 
     @FXML
     private VBox cartasJugador3HBox, cartasJugador4HBox;
 
     @FXML
-    private Label sumaMesaLabel;
+    public Label sumaMesaLabel;
 
     /**
      *
@@ -139,15 +146,19 @@ public class CincuentazoController {
      */
     protected void actualizarInterfazDeTurno() {
         if (juego.esTurnoDeMaquina) {
-            cart1Player1ImageView.setDisable(true);
-            cart2Player1ImageView.setDisable(true);
-            cart3Player1ImageView.setDisable(true);
-            cart4Player1ImageView.setDisable(true);
-        } else {
-            cart1Player1ImageView.setDisable(false);
-            cart2Player1ImageView.setDisable(false);
-            cart3Player1ImageView.setDisable(false);
-            cart4Player1ImageView.setDisable(false);
+            Player jugador = juego.getJugadores().get(juego.turnoJugador);
+            if (juego.esTurnoDeMaquina) {
+
+
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), e -> {
+                System.out.println("Es el turno de la máquina, actualizando interfaz...");
+            }));
+            timeline.play();
+            } else {
+                mostrarCartasJugador();
+            }
+        }else{
+            mostrarCartasJugador();
         }
     }
 
@@ -160,21 +171,13 @@ public class CincuentazoController {
 
         mostrarCartasJugador();
 
-        Random random = new Random();
-
-        int numeroAleatorio = random.nextInt(52) + 1;
-
-        Carta carta = mazo.getCartaPorId(numeroAleatorio);
-
-        if (carta != null) {
-            System.out.println("ID: " + carta.getId());
-            System.out.println("Valor: " + carta.getValor());
-            System.out.println("Nombre: " + carta.getNombre());
-            System.out.println("Imagen: " + carta.getImagen());
-        }
-
         juego.tocarMazo(0);
+
+        cartasJugador1HBox.setDisable(true);
+
         startUpdatingWithTimeline();
+
+        juego.siguienteTurno();
 
     }
 
@@ -227,7 +230,7 @@ public class CincuentazoController {
 
         String[] imagenesCartas = juego.obtenerImagenesCartasJugador(0);
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {actualizarCartasJugador(imagenesCartas);}));
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), e -> {actualizarCartasJugador(imagenesCartas);}));
 
         timeline.play();
     }
