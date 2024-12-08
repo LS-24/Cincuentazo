@@ -1,6 +1,5 @@
 package com.example.cincuentazo.controller;
 
-import com.example.cincuentazo.model.Carta;
 import com.example.cincuentazo.model.Player;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -13,13 +12,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
 
 public class CincuentazoController {
 
-    protected MazoController mazo = new MazoController();
     private CincuentazoGame juego;
     private int cartaIndex = 0;
 
@@ -39,81 +34,80 @@ public class CincuentazoController {
     protected ImageView mazoImageView, cartaEnMesaImageView;
 
     @FXML
-    protected HBox cartasJugador1HBox;
-    @FXML
-    private HBox cartasJugador2HBox;
-    @FXML
-    private HBox CartasMesaHBox;
+    protected HBox cartasJugador1HBox, cartasJugador2HBox;
 
     @FXML
-    private VBox cartasJugador3HBox, cartasJugador4HBox;
+    protected VBox cartasJugador3VBox, cartasJugador4VBox;
+
+    @FXML
+    private HBox CartasMesaHBox;
 
     @FXML
     public Label sumaMesaLabel;
 
     /**
-     *
+     * verifica e inicializa lo fundamental del juego
      */
     @FXML
     private void initialize() {
         System.out.println("Controlador inicializado correctamente");
         if (cart1Player1ImageView == null) {
-            System.out.println("cart1Player1ImageView es null. Creando uno nuevo.");
             cart1Player1ImageView = new ImageView();
             cart1Player1ImageView.setFitHeight(124.0);
             cart1Player1ImageView.setFitWidth(106.0);
-        } else {
-            System.out.println("cart1Player1ImageView está inicializado.");
         }
         if (cart2Player1ImageView == null) {
-            System.out.println("cart2Player1ImageView es null. Creando uno nuevo.");
             cart2Player1ImageView = new ImageView();
             cart2Player1ImageView.setFitHeight(124.0);
             cart2Player1ImageView.setFitWidth(106.0);
 
-        } else {
-            System.out.println("cart1Player1ImageView está inicializado.");
         }
         if (cart3Player1ImageView == null) {
-            System.out.println("cart3Player1ImageView es null. Creando uno nuevo.");
             cart3Player1ImageView = new ImageView();
             cart3Player1ImageView.setFitHeight(124.0);
             cart3Player1ImageView.setFitWidth(106.0);
-
-        } else {
-            System.out.println("cart1Player1ImageView está inicializado.");
         }
         if (cart4Player1ImageView == null) {
-            System.out.println("cart4Player1ImageView es null. Creando uno nuevo.");
             cart4Player1ImageView = new ImageView();
             cart4Player1ImageView.setFitHeight(124.0);
             cart4Player1ImageView.setFitWidth(106.0);
-        } else {
-            System.out.println("cart1Player1ImageView está inicializado.");
         }
         if (cartaEnMesaImageView == null) {
-            System.out.println("cartaEnMesaImageView es null. Creando uno nuevo.");
             cartaEnMesaImageView = new ImageView();
             cartaEnMesaImageView.setFitHeight(150.0);
             cartaEnMesaImageView.setFitWidth(200.0);
-        }else {
-            System.out.println("cartaEnMesaImageView está inicializado.");
         }
+        if (cartasJugador1HBox == null){
+            cartasJugador1HBox = new HBox();
+        }
+        if (cartasJugador2HBox == null){
+            cartasJugador2HBox = new HBox();
+        }
+        if (cartasJugador3VBox == null){
+            cartasJugador3VBox = new VBox();
+        }
+        if (cartasJugador4VBox == null){
+            cartasJugador4VBox = new VBox();
+        }
+
         int numJugadores = MainController.numJugadores;
         if (juego == null) {
             System.out.println("Inicializando el juego...");
             juego = new CincuentazoGame(this, numJugadores);
         }
+
     }
 
     /**
-     *
+     * Verifica que carta toco el jugador para ocultarla y enviarla a la mesa
      * @param event
      */
     @FXML
     void oncartasJugador1HBoxClicked(MouseEvent event) {
         String source = String.valueOf(event.getPickResult().getIntersectedNode().getId());
         System.out.println("Hiciste clic en la carta con ID: " + source);
+
+        actualizarSumaDeLaMesa();
 
         if (source.equals("cart1Player1ImageView")) {
             cartaIndex = 0;
@@ -149,7 +143,6 @@ public class CincuentazoController {
             Player jugador = juego.getJugadores().get(juego.turnoJugador);
             if (juego.esTurnoDeMaquina) {
 
-
             Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), e -> {
                 System.out.println("Es el turno de la máquina, actualizando interfaz...");
             }));
@@ -175,14 +168,16 @@ public class CincuentazoController {
 
         cartasJugador1HBox.setDisable(true);
 
-        startUpdatingWithTimeline();
+        actualizarCartasConTiempo();
+
+        mazoImageView.setDisable(true);
 
         juego.siguienteTurno();
 
     }
 
     /**
-     *
+     * Muestra las cartas del jugador
      */
     private void mostrarCartasJugador() {
         cart1Player1ImageView.setVisible(true);
@@ -192,7 +187,7 @@ public class CincuentazoController {
     }
 
     /**
-     *
+     * Actualiza la carta que esta en la mesa
      * @param imagen
      */
     public void actualizarCartaEnMesa(String imagen) {
@@ -201,7 +196,7 @@ public class CincuentazoController {
     }
 
     /**
-     *
+     * Actualiza lo visual de las cartas del jugador
      * @param cartas
      */
     public void actualizarCartasJugador(String[] cartas) {
@@ -224,9 +219,9 @@ public class CincuentazoController {
     }
 
     /**
-     *
+     *  Espera unos segundos y actualiza las cartas del jugador
      */
-    public void startUpdatingWithTimeline() {
+    public void actualizarCartasConTiempo() {
 
         String[] imagenesCartas = juego.obtenerImagenesCartasJugador(0);
 
@@ -234,4 +229,21 @@ public class CincuentazoController {
 
         timeline.play();
     }
+
+    /**
+     *
+     */
+    public void actualizarSumaDeLaMesa() {
+        int suma = juego.sumaDelJuego;
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.1), e -> {
+            sumaMesaLabel.setText("Suma :" + juego.sumaDelJuego);
+            juego.actualizarVisibilidadJugadores();
+        }));
+
+        timeline.setCycleCount(Timeline.INDEFINITE);
+
+        timeline.play();
+    }
+
+
 }

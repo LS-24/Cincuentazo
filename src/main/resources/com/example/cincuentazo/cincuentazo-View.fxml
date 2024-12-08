@@ -62,7 +62,7 @@
       </HBox>
    </bottom>
    <left>
-      <VBox fx:id="cartasJugador4HBox" alignment="CENTER" prefHeight="174.0" prefWidth="101.0" spacing="5.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="cartasJugador4VBox" alignment="CENTER" prefHeight="174.0" prefWidth="101.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
             <ImageView fx:id="cart1Player4" fitHeight="59.0" fitWidth="101.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -88,7 +88,7 @@
       </VBox>
    </left>
    <right>
-      <VBox fx:id="cartasJugador3HBox" alignment="CENTER" prefHeight="221.0" prefWidth="100.0" spacing="5.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="cartasJugador3VBox" alignment="CENTER" prefHeight="221.0" prefWidth="100.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
             <ImageView fx:id="cart4Player3" fitHeight="59.0" fitWidth="101.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -128,7 +128,7 @@
                         <Image url="@imagen/baraja.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="sumaMesaLabel" text="Suma de la mesa:" />
+                  <Label fx:id="sumaMesaLabel" text="Suma:" />
                </children>
             </VBox>
          </children>
