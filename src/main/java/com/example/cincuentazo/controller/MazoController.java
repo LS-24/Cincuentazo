@@ -3,18 +3,20 @@ package com.example.cincuentazo.controller;
 import com.example.cincuentazo.model.Carta;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MazoController {
 
-    private ArrayList<Carta> cartas;
+    protected ArrayList<Carta> cartas;
 
     public MazoController() {
         cartas = new ArrayList<>();
         crearMazo();
+        barajarMazo();
     }
 
     /**
-     *
+     * create the deck of cards
      */
     private void crearMazo() {
         String[] palos = {"hearts", "diamonds", "clubs", "spades"};
@@ -24,7 +26,7 @@ public class MazoController {
         for (String palo : palos) {
             for (String valor : valores) {
 
-                int valorNumerico = obtenerValor(valor); // Obtener el valor correspondiente
+                int valorNumerico = obtenerValor(valor);
 
                 String nombre = valor + " de " + palo;
 
@@ -35,10 +37,15 @@ public class MazoController {
         }
     }
 
+    private void barajarMazo() {
+        Collections.shuffle(cartas);
+    }
+
     /**
-     *
+     * obtenerValor
      * @param valor
      * @return
+     * returns the corresponding value
      */
     private int obtenerValor(String valor) {
         switch (valor) {
@@ -48,6 +55,8 @@ public class MazoController {
                 return -10;
             case "As":
                 return 1;
+            case "9":
+                return 0;
             default:
                 return Integer.parseInt(valor);
         }
@@ -74,5 +83,4 @@ public class MazoController {
         }
         return null;
     }
-
 }

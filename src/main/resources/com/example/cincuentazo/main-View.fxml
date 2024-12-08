@@ -8,12 +8,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="50.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cincuentazo.controller.MainController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="30.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cincuentazo.controller.MainController">
    <children>
       <Label text="CINCUENTAZO">
          <font>
-            <Font name="System Bold Italic" size="48.0" />
+            <Font name="System Bold Italic" size="64.0" />
          </font>
       </Label>
       <MenuButton fx:id="numerodeJugadoresMenuButton" mnemonicParsing="false">
@@ -26,11 +25,16 @@
             <TextField fx:id="numeroDeJugadoresTextField" editable="false" />
          </graphic>
       </MenuButton>
-      <Button fx:id="iniciarJuegoButton" mnemonicParsing="false" onMouseClicked="#onIniciarJuegoButtonClicked" text="Iniciar Juego">
+      <Label text="Seleccione el numero de jugadores para poder iniciar el juego">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="iniciarJuegoButton" disable="true" mnemonicParsing="false" onMouseClicked="#onIniciarJuegoButtonClicked" text="Iniciar Juego">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Button fx:id="instruccionesButton" mnemonicParsing="false" onMouseClicked="#onInstruccionesButtonClicked" text="Instrucciones de juego" />
+      <Button fx:id="instruccionesButton" mnemonicParsing="false" onMouseClicked="#onInstruccionesButtonClicked" text="Instrucciones de juego!" />
    </children>
 </VBox>
