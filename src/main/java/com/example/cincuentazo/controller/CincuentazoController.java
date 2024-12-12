@@ -43,7 +43,7 @@ public class CincuentazoController {
     private HBox CartasMesaHBox;
 
     @FXML
-    public Label sumaMesaLabel;
+    public Label sumaMesaLabel, turnoDeJugadorLabel;
 
     /**
      * verifica e inicializa lo fundamental del juego
@@ -99,7 +99,7 @@ public class CincuentazoController {
     }
 
     /**
-     * Verifica que carta toco el jugador para ocultarla y enviarla a la mesa
+     * Check which card the player touched to hide it and send it to the table
      * @param event
      */
     @FXML
@@ -177,7 +177,7 @@ public class CincuentazoController {
     }
 
     /**
-     * Muestra las cartas del jugador
+     * Show the player's cards
      */
     private void mostrarCartasJugador() {
         cart1Player1ImageView.setVisible(true);
@@ -187,7 +187,7 @@ public class CincuentazoController {
     }
 
     /**
-     * Actualiza la carta que esta en la mesa
+     * Update the card on the table
      * @param imagen
      */
     public void actualizarCartaEnMesa(String imagen) {
@@ -196,7 +196,7 @@ public class CincuentazoController {
     }
 
     /**
-     * Actualiza lo visual de las cartas del jugador
+     * Updates the visual of the player's cards
      * @param cartas
      */
     public void actualizarCartasJugador(String[] cartas) {
@@ -219,7 +219,7 @@ public class CincuentazoController {
     }
 
     /**
-     *  Espera unos segundos y actualiza las cartas del jugador
+     *  Wait a few seconds and update the player's cards
      */
     public void actualizarCartasConTiempo() {
 
@@ -236,7 +236,7 @@ public class CincuentazoController {
     public void actualizarSumaDeLaMesa() {
         int suma = juego.sumaDelJuego;
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.1), e -> {
-            sumaMesaLabel.setText("Suma :" + juego.sumaDelJuego);
+            sumaMesaLabel.setText("Suma: " + juego.sumaDelJuego);
             juego.actualizarVisibilidadJugadores();
         }));
 
@@ -244,6 +244,4 @@ public class CincuentazoController {
 
         timeline.play();
     }
-
-
 }

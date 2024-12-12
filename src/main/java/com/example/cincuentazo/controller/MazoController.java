@@ -42,7 +42,7 @@ public class MazoController {
     }
 
     /**
-     * obtenerValor
+     * getValue
      * @param valor
      * @return
      * returns the corresponding value

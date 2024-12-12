@@ -38,16 +38,7 @@ public class Player {
     }
 
     /**
-     * getIndex
-     * @return
-     * returns the player's index
-     */
-    public int getIndex() {
-        return index;
-    }
-
-    /**
-     * agregarCarta
+     * addLetter
      * @param carta
      * adds a card to the player's hand
      */
@@ -56,7 +47,7 @@ public class Player {
     }
 
     /**
-     * borrarCarta
+     * deleteLetter
      * @param carta
      * remove a card from the player's hand
      */

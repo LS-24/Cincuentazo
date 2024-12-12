@@ -128,7 +128,8 @@
                         <Image url="@imagen/baraja.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="sumaMesaLabel" text="Suma:" />
+                  <Label fx:id="sumaMesaLabel" text="Suma: " />
+                  <Label fx:id="turnoDeJugadorLabel" text="Turno de Jugador: 0" />
                </children>
             </VBox>
          </children>
