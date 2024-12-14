@@ -1,9 +1,12 @@
 package com.example.cincuentazo.controller;
 
 import com.example.cincuentazo.model.Player;
+import com.example.cincuentazo.view.CincuentazoView;
+import com.example.cincuentazo.view.MainView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,14 +15,22 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
+import java.io.IOException;
+
 
 public class CincuentazoController {
 
-    private CincuentazoGame juego;
+    protected CincuentazoGame juego;
     private int cartaIndex = 0;
 
     @FXML
-    private ImageView cart1Player1ImageView, cart2Player1ImageView, cart3Player1ImageView, cart4Player1ImageView;
+    protected ImageView cart1Player1ImageView;
+    @FXML
+    private ImageView cart2Player1ImageView;
+    @FXML
+    private ImageView cart3Player1ImageView;
+    @FXML
+    private ImageView cart4Player1ImageView;
 
     @FXML
     private ImageView cart1Player2, cart2Player2, cart3Player2, cart4Player2;
@@ -43,13 +54,16 @@ public class CincuentazoController {
     private HBox CartasMesaHBox;
 
     @FXML
-    public Label sumaMesaLabel;
+    public Label sumaMesaLabel, turnoDeJugadorLabel;
+
+    @FXML
+    protected Button newGameButton;
 
     /**
      * verifica e inicializa lo fundamental del juego
      */
     @FXML
-    private void initialize() {
+    protected void initialize() {
         System.out.println("Controlador inicializado correctamente");
         if (cart1Player1ImageView == null) {
             cart1Player1ImageView = new ImageView();
@@ -99,7 +113,7 @@ public class CincuentazoController {
     }
 
     /**
-     * Verifica que carta toco el jugador para ocultarla y enviarla a la mesa
+     * Check which card the player touched to hide it and send it to the table
      * @param event
      */
     @FXML
@@ -107,7 +121,7 @@ public class CincuentazoController {
         String source = String.valueOf(event.getPickResult().getIntersectedNode().getId());
         System.out.println("Hiciste clic en la carta con ID: " + source);
 
-        actualizarSumaDeLaMesa();
+        updateTableSum();
 
         if (source.equals("cart1Player1ImageView")) {
             cartaIndex = 0;
@@ -130,28 +144,34 @@ public class CincuentazoController {
         System.out.println("Se hizo clic en la carta " + cartaIndex);
 
         if (cartaIndex != -1 && juego != null) {
-            juego.seleccionarCartaJugador(cartaIndex);
+            juego.selectCardPlayer(cartaIndex);
             System.out.println("Se hizo clic en la carta " + cartaIndex);
         }
+    }
+
+    @FXML
+    void onnewGameButtonClicked(MouseEvent event) throws IOException {
+        MainView.getInstance();
+        CincuentazoView.getInstance().close();
     }
 
     /**
      *
      */
-    protected void actualizarInterfazDeTurno() {
-        if (juego.esTurnoDeMaquina) {
-            Player jugador = juego.getJugadores().get(juego.turnoJugador);
-            if (juego.esTurnoDeMaquina) {
+    protected void updateShiftInterface() {
+        if (juego.isMachineShift) {
+            Player jugador = juego.getPlayers().get(juego.turnPlayer);
+            if (juego.isMachineShift) {
 
             Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), e -> {
                 System.out.println("Es el turno de la máquina, actualizando interfaz...");
             }));
             timeline.play();
             } else {
-                mostrarCartasJugador();
+                showCardsPlayer();
             }
         }else{
-            mostrarCartasJugador();
+            showCardsPlayer();
         }
     }
 
@@ -162,24 +182,24 @@ public class CincuentazoController {
     @FXML
     void onmazoImageViewClicked(MouseEvent event) {
 
-        mostrarCartasJugador();
+        showCardsPlayer();
 
-        juego.tocarMazo(0);
+        juego.playDeck(0);
 
         cartasJugador1HBox.setDisable(true);
 
-        actualizarCartasConTiempo();
+        updateLettersWithTime();
 
         mazoImageView.setDisable(true);
 
-        juego.siguienteTurno();
+        juego.nextTurn();
 
     }
 
     /**
-     * Muestra las cartas del jugador
+     * Show the player's cards
      */
-    private void mostrarCartasJugador() {
+    private void showCardsPlayer() {
         cart1Player1ImageView.setVisible(true);
         cart2Player1ImageView.setVisible(true);
         cart3Player1ImageView.setVisible(true);
@@ -187,19 +207,19 @@ public class CincuentazoController {
     }
 
     /**
-     * Actualiza la carta que esta en la mesa
+     * Update the card on the table
      * @param imagen
      */
-    public void actualizarCartaEnMesa(String imagen) {
+    public void updateLetterOnTable(String imagen) {
         cartaEnMesaImageView.setImage(new Image(String.valueOf(getClass().getResource("/com/example/cincuentazo/" + imagen))));
-        System.out.println("actualizarCartaEnMesa imagen: " + imagen);
+        System.out.println("updateLetterOnTable imagen: " + imagen);
     }
 
     /**
-     * Actualiza lo visual de las cartas del jugador
+     * Updates the visual of the player's cards
      * @param cartas
      */
-    public void actualizarCartasJugador(String[] cartas) {
+    public void updateCardsPlayer(String[] cartas) {
 
         if (cartas != null && cartas.length > 0) {
 
@@ -219,13 +239,14 @@ public class CincuentazoController {
     }
 
     /**
-     *  Espera unos segundos y actualiza las cartas del jugador
+     *  Wait a few seconds and update the player's cards
      */
-    public void actualizarCartasConTiempo() {
+    public void updateLettersWithTime() {
 
-        String[] imagenesCartas = juego.obtenerImagenesCartasJugador(0);
+        String[] imagenesCartas = juego.getPicturesCardsPlayer(0);
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), e -> {actualizarCartasJugador(imagenesCartas);}));
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), e -> {
+            updateCardsPlayer(imagenesCartas);}));
 
         timeline.play();
     }
@@ -233,17 +254,15 @@ public class CincuentazoController {
     /**
      *
      */
-    public void actualizarSumaDeLaMesa() {
-        int suma = juego.sumaDelJuego;
+    public void updateTableSum() {
+        int suma = juego.gameSum;
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.1), e -> {
-            sumaMesaLabel.setText("Suma :" + juego.sumaDelJuego);
-            juego.actualizarVisibilidadJugadores();
+            sumaMesaLabel.setText("Suma: " + juego.gameSum);
+            juego.updateVisibilityPlayers();
         }));
 
         timeline.setCycleCount(Timeline.INDEFINITE);
 
         timeline.play();
     }
-
-
 }

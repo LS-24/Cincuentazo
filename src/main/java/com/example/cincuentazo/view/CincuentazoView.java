@@ -13,6 +13,10 @@ public class CincuentazoView extends Stage {
 
     private CincuentazoController controller;
 
+    /**
+     * Instantiate the window view
+     * @throws IOException
+     */
     public CincuentazoView() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cincuentazo/cincuentazo-View.fxml"));
         Parent root = loader.load();

@@ -6,9 +6,9 @@ public class Carta {
     private int valor;
     private String nombre;
     private String imagen;
+    public Integer valorTemporal;
 
     /**
-     *
      * @param id
      * @param nombre
      * @param imagen
@@ -19,12 +19,16 @@ public class Carta {
         this.nombre = nombre;
         this.imagen = imagen;
         this.valor = valor;
+        this.valorTemporal = null;
+    }
+
+    public Carta(String carta10, int i) {
     }
 
     /**
      * getId
-     * @return
-     * returns the identity that was assigned to the letter
+     *
+     * @return returns the identity that was assigned to the letter
      */
     public int getId() {
         return id;
@@ -32,28 +36,31 @@ public class Carta {
 
     /**
      * getName
-     * @return
-     * returns card name
+     *
+     * @return returns card name
      */
-    public String getNombre() {
+    public String getName() {
         return nombre;
     }
 
     /**
      * getImagen
-     * @return
-     * returns the name of the card image
+     *
+     * @return returns the name of the card image
      */
     public String getImagen() {
         return imagen;
     }
 
     /**
-     * getValor
-     * @return
-     * returns value of the card
+     * getValue
+     *
+     * @return returns value of the card
      */
-    public int getValor() {
+    public int getValue() {
+        if (valorTemporal != null) {
+            return valorTemporal;
+        }
         return valor;
     }
 }
