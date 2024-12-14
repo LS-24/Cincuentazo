@@ -19,9 +19,9 @@ public class CincuentazoGame {
     public ArrayList<Player> players;
     public ArrayList<Carta> deck;
     public ArrayList<Carta> lettersOnTable;
-    protected ArrayList<Boolean> isMachine;
+    public ArrayList<Boolean> isMachine;
     public int turnPlayer;
-    protected boolean isMachineShift;
+    public boolean isMachineShift;
     public int gameSum;
 
     /**
@@ -54,7 +54,15 @@ public class CincuentazoGame {
     public void nextTurn() {
         verifyWinner();
 
-        turnPlayer = (turnPlayer + 1) % players.size();
+        do {
+            turnPlayer = (turnPlayer + 1) % players.size();
+        } while (players.get(turnPlayer) == null);
+
+        System.out.println("Cartas del Jugador " + turnPlayer + ": ");
+        Player currentPlayer = players.get(turnPlayer);
+        for (Carta carta : currentPlayer.getMano()) {
+            System.out.println(carta.getName());
+        }
 
         if (isMachine.get(turnPlayer)) {
             isMachineShift = true;
@@ -75,6 +83,10 @@ public class CincuentazoGame {
         System.out.println("Turno del jugador: " + turnPlayer);
         System.out.println("Cartas restantes en el deck: " + deck.size());
         System.out.println("Cartas jugadas en la mesa: " + lettersOnTable.size());
+    }
+    private boolean isPlayerEnabled(int playerIndex) {
+        Player jugador = players.get(playerIndex);
+        return jugador.isEnabled();
     }
 
     /**
@@ -105,13 +117,13 @@ public class CincuentazoGame {
             selectedLetter = handMachine.get(cartaIndex);
         }
 
-        System.out.println("La máquina ha jugado: " + selectedLetter.getName());
+//        System.out.println("La máquina ha jugado: " + selectedLetter.getName());
         possiblePlayCard(playerMachine, selectedLetter);
 
         if (playerMachine.getMano().size() < 4 && !deck.isEmpty()) {
             Carta cartaDelMazo = deck.remove(deck.size() - 1);
             playerMachine.addLetter(cartaDelMazo);
-            System.out.println("La máquina ha tomado una carta del deck: " + cartaDelMazo.getName());
+//            System.out.println("La máquina ha tomado una carta del deck: " + cartaDelMazo.getName());
         }
 
         if (deck.isEmpty()) {
@@ -191,16 +203,20 @@ public class CincuentazoGame {
 
         switch (index) {
             case 0:
-                controller.cartasJugador1HBox.setVisible(false);
+                controller.cartasJugador1HBox.setDisable(true);
+                controller.mazoImageView.setDisable(true);
                 break;
             case 1:
-                controller.cartasJugador2HBox.setVisible(false);
+                controller.cartasJugador2HBox.setDisable(true);
+                controller.mazoImageView.setDisable(true);
                 break;
             case 2:
-                controller.cartasJugador3VBox.setVisible(false);
+                controller.cartasJugador3VBox.setDisable(true);
+                controller.mazoImageView.setDisable(true);
                 break;
             case 3:
-                controller.cartasJugador4VBox.setVisible(false);
+                controller.cartasJugador4VBox.setDisable(true);
+                controller.mazoImageView.setDisable(true);
                 break;
             default:
                 break;
@@ -400,9 +416,9 @@ public class CincuentazoGame {
 
             if (!validateCardsToPlay(jugador)) {//If the player has no cards to play, add the cards to the deck and eliminate it.
                 deck.addAll(jugador.getMano());
-                System.out.println(jugador.getName() + " no tiene cartas válidas para jugar y ha sido eliminado.");
-                players.remove(jugador);
-                hidePlayerContainer(jugador);
+                disablePlayer(jugador);
+                //System.out.println(jugador.getName() + " no tiene cartas válidas para jugar y ha sido eliminado.");
+//                players.remove(jugador);
                 verifyWinner();
             }
         } else {
@@ -425,7 +441,7 @@ public class CincuentazoGame {
      *  Indicates the winner
      * @param jugador
      */
-    private void declareWinner(Player jugador) {
+    public void declareWinner(Player jugador) {
         controller.newGameButton.setVisible(true);
         controller.cartasJugador1HBox.setDisable(true);
         controller.cartasJugador2HBox.setDisable(true);

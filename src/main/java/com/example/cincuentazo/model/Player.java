@@ -7,6 +7,7 @@ public class Player {
     private String name;
     private ArrayList <Carta> mano;
     private int index;
+    protected boolean enabled;
 
     /**
      * Player
@@ -54,9 +55,17 @@ public class Player {
     public void deleteLetter(Carta carta) {
         if (carta != null && mano.contains(carta)) {
             mano.remove(carta);
-            System.out.println("Carta " + carta.getName() + " eliminada correctamente.");
+//            System.out.println("Carta " + carta.getName() + " eliminada correctamente.");
         } else {
             System.out.println("La carta no se encuentra en la mano.");
         }
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean habilitado) {
+        this.enabled = enabled;
     }
 }

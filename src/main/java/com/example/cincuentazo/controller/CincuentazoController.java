@@ -42,13 +42,20 @@ public class CincuentazoController {
     private ImageView cart1Player4, cart2Player4, cart3Player4, cart4Player4;
 
     @FXML
-    protected ImageView mazoImageView, cartaEnMesaImageView;
+    public ImageView mazoImageView;
+    @FXML
+    protected ImageView cartaEnMesaImageView;
 
     @FXML
-    protected HBox cartasJugador1HBox, cartasJugador2HBox;
+    public HBox cartasJugador1HBox;
 
     @FXML
-    protected VBox cartasJugador3VBox, cartasJugador4VBox;
+    public HBox cartasJugador2HBox;
+
+    @FXML
+    public VBox cartasJugador3VBox;
+    @FXML
+    public VBox cartasJugador4VBox;
 
     @FXML
     private HBox CartasMesaHBox;
@@ -57,7 +64,7 @@ public class CincuentazoController {
     public Label sumaMesaLabel, turnoDeJugadorLabel;
 
     @FXML
-    protected Button newGameButton;
+    public Button newGameButton;
 
     /**
      * verifica e inicializa lo fundamental del juego
@@ -118,7 +125,7 @@ public class CincuentazoController {
     @FXML
     void oncartasJugador1HBoxClicked(MouseEvent event) {
         String source = String.valueOf(event.getPickResult().getIntersectedNode().getId());
-        System.out.println("Hiciste clic en la carta con ID: " + source);
+//        System.out.println("Hiciste clic en la carta con ID: " + source);
 
         updateTableSum();
 
@@ -140,11 +147,11 @@ public class CincuentazoController {
             cart4Player1ImageView.setVisible(false);
         }
 
-        System.out.println("Se hizo clic en la carta " + cartaIndex);
+//        System.out.println("Se hizo clic en la carta " + cartaIndex);
 
         if (cartaIndex != -1 && juego != null) {
             juego.selectCardPlayer(cartaIndex);
-            System.out.println("Se hizo clic en la carta " + cartaIndex);
+//            System.out.println("Se hizo clic en la carta " + cartaIndex);
         }
     }
 
@@ -211,7 +218,7 @@ public class CincuentazoController {
      */
     public void updateLetterOnTable(String imagen) {
         cartaEnMesaImageView.setImage(new Image(String.valueOf(getClass().getResource("/com/example/cincuentazo/" + imagen))));
-        System.out.println("updateLetterOnTable imagen: " + imagen);
+//        System.out.println("updateLetterOnTable imagen: " + imagen);
     }
 
     /**
