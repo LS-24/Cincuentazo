@@ -223,15 +223,20 @@ public class CincuentazoController {
 
         if (cartas != null && cartas.length > 0) {
 
+            System.out.println("#######################");
+            System.out.println(cartas[0]);
             if (cartas.length >= 1) {
                 cart1Player1ImageView.setImage(new Image(String.valueOf(getClass().getResource("/com/example/cincuentazo/" + cartas[0]))));
             }
+            System.out.println(cartas[1]);
             if (cartas.length >= 2) {
                 cart2Player1ImageView.setImage(new Image(String.valueOf(getClass().getResource("/com/example/cincuentazo/" + cartas[1]))));
             }
+            System.out.println(cartas[2]);
             if (cartas.length >= 3) {
                 cart3Player1ImageView.setImage(new Image(String.valueOf(getClass().getResource("/com/example/cincuentazo/" + cartas[2]))));
             }
+            System.out.println(cartas[3]);
             if (cartas.length >= 4) {
                 cart4Player1ImageView.setImage(new Image(String.valueOf(getClass().getResource("/com/example/cincuentazo/" + cartas[3]))));
             }
