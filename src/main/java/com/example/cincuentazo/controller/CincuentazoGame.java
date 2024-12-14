@@ -349,13 +349,13 @@ public class CincuentazoGame {
      */
     public void updateSumTable(Carta carta) {
         int letterValue = carta.getValue();
-        if (carta.getValue() == 1) {
-            if (isMachineShift) {
-                letterValue = decideAsValue();
-            } else {
-                letterValue = selectAsValue();
-            }
-        }
+//        if (carta.getValue() == 1) {
+//            if (isMachineShift) {
+//                letterValue = decideAsValue();
+//            } else {
+//                letterValue = selectAsValue();
+//            }
+//        }
         gameSum += letterValue;
         System.out.println("Suma de la mesa: " + gameSum);
     }

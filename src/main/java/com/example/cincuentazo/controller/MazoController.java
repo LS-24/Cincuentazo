@@ -30,7 +30,7 @@ public class MazoController {
 
                 String nombre = valor + " de " + palo;
 
-                String imagen = "imagen/" + palo + "/" + valor.toLowerCase() + palo + ".png";
+                String imagen = "imagen/" + palo + "/" + valor + palo + ".png";
 
                 cartas.add(new Carta(id++, nombre, imagen, valorNumerico));
             }
@@ -54,7 +54,7 @@ public class MazoController {
             case "K":
                 return -10;
             case "As":
-                return 1;
+                return 5;
             case "9":
                 return 0;
             default:
