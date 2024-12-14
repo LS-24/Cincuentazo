@@ -18,7 +18,7 @@ public class MazoController {
     /**
      * create the deck of cards
      */
-    private void crearMazo() {
+    public void crearMazo() {
         String[] palos = {"hearts", "diamonds", "clubs", "spades"};
         String[] valores = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "As"};
         int id = 1;
@@ -37,7 +37,7 @@ public class MazoController {
         }
     }
 
-    private void barajarMazo() {
+    public void barajarMazo() {
         Collections.shuffle(cartas);
     }
 
@@ -47,7 +47,7 @@ public class MazoController {
      * @return
      * returns the corresponding value
      */
-    private int obtenerValor(String valor) {
+    public int obtenerValor(String valor) {
         switch (valor) {
             case "J":
             case "Q":

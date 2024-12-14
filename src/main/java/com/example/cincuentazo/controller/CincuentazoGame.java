@@ -16,13 +16,13 @@ import java.util.Random;
 public class CincuentazoGame {
 
     private CincuentazoController controller;
-    private ArrayList<Player> jugadores;
-    protected ArrayList<Carta> mazo;
-    public ArrayList<Carta> cartasEnMesa;
-    protected ArrayList<Boolean> esMaquina;
-    public int turnoJugador;
-    protected boolean esTurnoDeMaquina;
-    protected int sumaDelJuego;
+    public ArrayList<Player> players;
+    public ArrayList<Carta> deck;
+    public ArrayList<Carta> lettersOnTable;
+    protected ArrayList<Boolean> isMachine;
+    public int turnPlayer;
+    protected boolean isMachineShift;
+    public int gameSum;
 
     /**
      * @param controller
@@ -33,98 +33,99 @@ public class CincuentazoGame {
             throw new IllegalArgumentException("El controlador no puede ser null");
         }
         this.controller = controller;
-        jugadores = new ArrayList<>();
-        cartasEnMesa = new ArrayList<>();
-        esMaquina = new ArrayList<Boolean>();
-        mazo = new MazoController().getCartas();
-        turnoJugador = 0;
-        esTurnoDeMaquina = false;
-        sumaDelJuego = 0;
-        iniciarJuego(numJugadores);
+        players = new ArrayList<>();
+        lettersOnTable = new ArrayList<>();
+        isMachine = new ArrayList<Boolean>();
+        deck = new MazoController().getCartas();
+        turnPlayer = 0;
+        isMachineShift = false;
+        gameSum = 0;
+        starGame(numJugadores);
 
         System.out.println("Juego iniciado correctamente.");
-        System.out.println("Número de jugadores: " + jugadores.size());
-        System.out.println("Número de cartas en el mazo: " + mazo.size());
-        System.out.println("Número de cartas en la mesa: " + cartasEnMesa.size());
+        System.out.println("Número de players: " + players.size());
+        System.out.println("Número de cartas en el deck: " + deck.size());
+        System.out.println("Número de cartas en la mesa: " + lettersOnTable.size());
     }
 
     /**
      * Change the turn to the next player
      */
-    public void siguienteTurno() {
-        verificarGanador();
+    public void nextTurn() {
+        verifyWinner();
 
-        turnoJugador = (turnoJugador + 1) % jugadores.size();
+        turnPlayer = (turnPlayer + 1) % players.size();
 
-        if (esMaquina.get(turnoJugador)) {
-            esTurnoDeMaquina = true;
+        if (isMachine.get(turnPlayer)) {
+            isMachineShift = true;
 
             PauseTransition pausa = new PauseTransition(Duration.seconds(4 + (int)(Math.random() * 2)));
             pausa.setOnFinished(event -> {
-                jugarTurnoDeLaMaquina();
+                playMachineTurn();
             });
             pausa.play();
 
         } else {
-            esTurnoDeMaquina = false;
+            isMachineShift = false;
             controller.cartasJugador1HBox.setDisable(false);
             controller.mazoImageView.setDisable(false);
-            controller.actualizarInterfazDeTurno();
+            controller.updateShiftInterface();
         }
-        controller.turnoDeJugadorLabel.setText("Turno de Jugador: " + turnoJugador);
-        System.out.println("Turno del jugador: " + turnoJugador);
-        System.out.println("Cartas restantes en el mazo: " + mazo.size());
-        System.out.println("Cartas jugadas en la mesa: " + cartasEnMesa.size());
+        controller.turnoDeJugadorLabel.setText("Turno de Jugador: " + turnPlayer);
+        System.out.println("Turno del jugador: " + turnPlayer);
+        System.out.println("Cartas restantes en el deck: " + deck.size());
+        System.out.println("Cartas jugadas en la mesa: " + lettersOnTable.size());
     }
 
     /**
      * Manage the machine shift
      */
-    public void jugarTurnoDeLaMaquina() {
-        Player jugadorMaquina = jugadores.get(turnoJugador);
-        ArrayList<Carta> manoMaquina = jugadorMaquina.getMano();
+    public void playMachineTurn() {
+        Player playerMachine = players.get(turnPlayer);
+        ArrayList<Carta> handMachine = playerMachine.getMano();
 
-        if (!validarCartasParaJugar(jugadorMaquina)) {
+        if (!validateCardsToPlay(playerMachine)) {
+            deck.addAll(handMachine);;
             System.out.println("EL jugador no tiene cartas válidas para jugar y ha sido eliminado.");
-            jugadores.remove(jugadorMaquina);
+            players.remove(playerMachine);
 
-            verificarGanador();
+            verifyWinner();
 
-            siguienteTurno();
+            nextTurn();
             return;
         }
 
         Random random = new Random();
-        int cartaIndex = random.nextInt(manoMaquina.size());
-        Carta cartaSeleccionada = manoMaquina.get(cartaIndex);
+        int cartaIndex = random.nextInt(handMachine.size());
+        Carta selectedLetter = handMachine.get(cartaIndex);
 
-        while (sumaDelJuego + cartaSeleccionada.getValor() > 50) {
-            System.out.println("La máquina no puede jugar la carta " + cartaSeleccionada.getNombre() + " porque excede la suma de 50.");
-            cartaIndex = random.nextInt(manoMaquina.size());
-            cartaSeleccionada = manoMaquina.get(cartaIndex);
+        while (gameSum + selectedLetter.getValor() > 50) {
+            System.out.println("La máquina no puede jugar la carta " + selectedLetter.getNombre() + " porque excede la suma de 50.");
+            cartaIndex = random.nextInt(handMachine.size());
+            selectedLetter = handMachine.get(cartaIndex);
         }
 
-        System.out.println("La máquina ha jugado: " + cartaSeleccionada.getNombre());
-        posibleJugarCarta(jugadorMaquina, cartaSeleccionada);
+        System.out.println("La máquina ha jugado: " + selectedLetter.getNombre());
+        possiblePlayCard(playerMachine, selectedLetter);
 
-        if (jugadorMaquina.getMano().size() < 4 && !mazo.isEmpty()) {
-            Carta cartaDelMazo = mazo.remove(mazo.size() - 1);
-            jugadorMaquina.agregarCarta(cartaDelMazo);
-            System.out.println("La máquina ha tomado una carta del mazo: " + cartaDelMazo.getNombre());
+        if (playerMachine.getMano().size() < 4 && !deck.isEmpty()) {
+            Carta cartaDelMazo = deck.remove(deck.size() - 1);
+            playerMachine.agregarCarta(cartaDelMazo);
+            System.out.println("La máquina ha tomado una carta del deck: " + cartaDelMazo.getNombre());
         }
 
-        if (mazo.isEmpty()) {
-            devolverCartasAlMazo();
+        if (deck.isEmpty()) {
+            returnCardsToDeck();
         }
 
-        siguienteTurno();
+        nextTurn();
     }
 
     /**
      * Method to start the game
      * @param numJugadores
      */
-    private void iniciarJuego(int numJugadores) {
+    private void starGame(int numJugadores) {
 
         controller.cartasJugador1HBox.setVisible(false);
         controller.cartasJugador2HBox.setVisible(false);
@@ -133,25 +134,25 @@ public class CincuentazoGame {
 
         for (int i = 1; i <= numJugadores; i++) {
             boolean esMaquinaJugador = (i > 1);
-            esMaquina.add(esMaquinaJugador);
+            isMachine.add(esMaquinaJugador);
 
-            ArrayList<Carta> mano = repartirCartas();
-            jugadores.add(new Player("Jugador " + i, mano));
+            ArrayList<Carta> mano = dealCards();
+            players.add(new Player("Jugador " + i, mano));
         }
 
-        actualizarVisibilidadJugadores();
+        updateVisibilityPlayers();
 
-        colocarPrimeraCartaEnMesa();
+        placeFirstCardOnTable();
 
-        controller.actualizarCartasJugador(obtenerImagenesCartasJugador(0));
+        controller.updateCardsPlayer(getPicturesCardsPlayer(0));
     }
 
     /**
      * Visually shows the players
      */
-    protected void actualizarVisibilidadJugadores() {
+    protected void updateVisibilityPlayers() {
 
-        switch (jugadores.size()) {
+        switch (players.size()) {
             case 1:
                 controller.cartasJugador1HBox.setVisible(true);
                 controller.cartasJugador2HBox.setVisible(false);
@@ -185,8 +186,8 @@ public class CincuentazoGame {
      *  Visually hide eliminated players
      * @param jugador
      */
-    private void ocultarContenedorDeJugador(Player jugador) {
-        int index = jugadores.indexOf(jugador);
+    private void hidePlayerContainer(Player jugador) {
+        int index = players.indexOf(jugador);
 
         switch (index) {
             case 0:
@@ -209,21 +210,21 @@ public class CincuentazoGame {
     /**
      * Place the initial card
      */
-    private void colocarPrimeraCartaEnMesa() {
-        int sumaInicial;
+    private void placeFirstCardOnTable() {
+        int initialSum;
 
         Random random = new Random();
-        Carta cartaInicial = mazo.get(random.nextInt(mazo.size()));
-        cartasEnMesa.add(cartaInicial);
-        mazo.remove(cartaInicial);
+        Carta cartaInicial = deck.get(random.nextInt(deck.size()));
+        lettersOnTable.add(cartaInicial);
+        deck.remove(cartaInicial);
 
-        controller.actualizarCartaEnMesa(cartaInicial.getImagen());
+        controller.updateLetterOnTable(cartaInicial.getImagen());
         System.out.println("Carta en mesa: " + cartaInicial.getImagen());
-        sumaInicial = 0;
-        for (Carta carta : cartasEnMesa) {
-            sumaInicial += carta.getValor();
+        initialSum = 0;
+        for (Carta carta : lettersOnTable) {
+            initialSum += carta.getValor();
         }
-        sumaDelJuego = sumaInicial;
+        gameSum = initialSum;
     }
 
     /**
@@ -231,8 +232,8 @@ public class CincuentazoGame {
      * @param jugadorIndex
      * @return
      */
-    protected String[] obtenerImagenesCartasJugador(int jugadorIndex) {
-        Player jugador = jugadores.get(jugadorIndex);
+    protected String[] getPicturesCardsPlayer(int jugadorIndex) {
+        Player jugador = players.get(jugadorIndex);
         ArrayList<Carta> mano = jugador.getMano();
         String[] imagenes = new String[mano.size()];
 
@@ -246,10 +247,10 @@ public class CincuentazoGame {
      * Deal the cards
      * @return
      */
-    public ArrayList<Carta> repartirCartas() {
+    public ArrayList<Carta> dealCards() {
         ArrayList<Carta> manoJugador = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            Carta carta = mazo.remove(0);
+            Carta carta = deck.remove(0);
             manoJugador.add(carta);
         }
         return manoJugador;
@@ -259,33 +260,32 @@ public class CincuentazoGame {
      * return the players
      * @return
      */
-    public ArrayList<Player> getJugadores() {
-        return jugadores;
+    public ArrayList<Player> getPlayers() {
+        return players;
     }
 
     /**
      * Method for the player to select a card
      * @param cartaIndex
      */
-    public void seleccionarCartaJugador(int cartaIndex) {
-        if (cartaIndex < 0 || cartaIndex >= jugadores.get(0).getMano().size()) {
+    public void selectCardPlayer(int cartaIndex) {
+        if (cartaIndex < 0 || cartaIndex >= players.get(0).getMano().size()) {
             System.out.println("Índice de carta inválido: " + cartaIndex);
             return;
         }
 
-        Player jugador = jugadores.get(turnoJugador);
+        Player jugador = players.get(turnPlayer);
         Carta cartaSeleccionada = jugador.getMano().get(cartaIndex);
         System.out.println("El jugador " + jugador.getName() + " ha jugado: " + cartaSeleccionada.getNombre());
 
         System.out.println("Jugador seleccionado: " + jugador.getName());
         System.out.println("Carta seleccionada: " + cartaSeleccionada.getNombre());
 
-        if (sumaDelJuego + cartaSeleccionada.getValor() > 50) {
+        if (gameSum + cartaSeleccionada.getValor() > 50) {
             new AlertBox().showAlert("ERROR", "no puede jugar esta carta porque excede la suma de 50.");
-            controller.mazoImageView.setDisable(true);
         }
 
-        posibleJugarCarta(jugador, cartaSeleccionada);
+        possiblePlayCard(jugador, cartaSeleccionada);
 
         System.out.println("Cartas restantes en la mano de " + jugador.getName() + ":");
         jugador.getMano().forEach(c -> System.out.println(c.getNombre()));
@@ -296,25 +296,25 @@ public class CincuentazoGame {
      * allows the player to take a card from the deck
      * @param jugadorIndex
      */
-    public void tocarMazo(int jugadorIndex) {
-        Player jugador = jugadores.get(jugadorIndex);
+    public void playDeck(int jugadorIndex) {
+        Player jugador = players.get(jugadorIndex);
 
         if (jugador.getMano().size() < 4) {
-            if (!mazo.isEmpty()) {
-                Carta cartaDelMazo = mazo.remove(mazo.size() - 1);
+            if (!deck.isEmpty()) {
+                Carta cartaDelMazo = deck.remove(deck.size() - 1);
                 jugador.agregarCarta(cartaDelMazo);
 
-                controller.actualizarCartasJugador(obtenerImagenesCartasJugador(jugadorIndex));
-                System.out.println("El jugador " + jugador.getName() + " ha tomado una carta del mazo: " + cartaDelMazo.getNombre());
+                controller.updateCardsPlayer(getPicturesCardsPlayer(jugadorIndex));
+                System.out.println("El jugador " + jugador.getName() + " ha tomado una carta del deck: " + cartaDelMazo.getNombre());
             } else {
-                devolverCartasAlMazo();
+                returnCardsToDeck();
             }
         } else {
-            System.out.println("El jugador " + jugador.getName() + " no puede tomar del mazo porque ya tiene 4 cartas.");
+            System.out.println("El jugador " + jugador.getName() + " no puede tomar del deck porque ya tiene 4 cartas.");
         }
     }
 
-    private int seleccionarValorAs() {
+    private int selectAsValue() {
         String[] opciones = {"1", "10"};
         int seleccion = JOptionPane.showOptionDialog(null, "Selecciona el valor del As", "Valor del As",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
@@ -328,28 +328,44 @@ public class CincuentazoGame {
     /**
      * Return cards to the deck when it becomes empty.
      */
-    private void devolverCartasAlMazo() {
-        if (!cartasEnMesa.isEmpty()) {
-            ArrayList<Carta> cartasParaDevolver = new ArrayList<>(cartasEnMesa);
-            Carta ultimaCarta = cartasParaDevolver.remove(cartasParaDevolver.size() - 1);
+    private void returnCardsToDeck() {
+        if (!lettersOnTable.isEmpty()) {
+            ArrayList<Carta> lettersToReturn = new ArrayList<>(lettersOnTable);
+            Carta lastLetter = lettersToReturn.remove(lettersToReturn.size() - 1);
 
-            mazo.addAll(cartasParaDevolver);
-            cartasEnMesa.clear();
+            deck.addAll(lettersToReturn);
+            lettersOnTable.clear();
 
-            cartasEnMesa.add(ultimaCarta);
+            lettersOnTable.add(lastLetter);
 
-            Collections.shuffle(mazo);
+            Collections.shuffle(deck);
 
-            System.out.println("El mazo se ha rellenado.");
+            System.out.println("El deck se ha rellenado.");
         }
     }
 
     /**
      *  Update the sum of the cards
      */
-    public void actualizarSumaMesa(Carta carta) {
-        sumaDelJuego += carta.getValor();
-        System.out.println("Suma de la mesa: " + sumaDelJuego);
+    public void updateSumTable(Carta carta) {
+        int letterValue = carta.getValor();
+        if (carta.getValor() == 1) {
+            if (isMachineShift) {
+                letterValue = decideAsValue();
+            } else {
+                letterValue = selectAsValue();
+            }
+        }
+        gameSum += letterValue;
+        System.out.println("Suma de la mesa: " + gameSum);
+    }
+
+    private int decideAsValue() {
+        if (gameSum < 41) {
+            return 10;
+        } else {
+            return 1;
+        }
     }
 
     /**
@@ -357,11 +373,11 @@ public class CincuentazoGame {
       * @param jugador
      * @return
      */
-    private boolean validarCartasParaJugar(Player jugador) {
+    public boolean validateCardsToPlay(Player jugador) {
         ArrayList<Carta> manoJugador = jugador.getMano();
 
         for (Carta carta : manoJugador) {
-            if (sumaDelJuego + carta.getValor() <= 50) {
+            if (gameSum + carta.getValor() <= 50) {
                 return true;
             }
         }
@@ -373,19 +389,21 @@ public class CincuentazoGame {
      * @param jugador
      * @param cartaSeleccionada
      */
-    public void posibleJugarCarta(Player jugador, Carta cartaSeleccionada) {
-        if (sumaDelJuego + cartaSeleccionada.getValor() <= 50) {
+    public void possiblePlayCard(Player jugador, Carta cartaSeleccionada) {
+        if (gameSum + cartaSeleccionada.getValor() <= 50) {
 
-            cartasEnMesa.add(cartaSeleccionada);
+            lettersOnTable.add(cartaSeleccionada);
             jugador.borrarCarta(cartaSeleccionada);
-            controller.actualizarCartaEnMesa(cartaSeleccionada.getImagen());
-            actualizarSumaMesa(cartaSeleccionada);
+            controller.updateLetterOnTable(cartaSeleccionada.getImagen());
+            updateSumTable(cartaSeleccionada);
+            controller.cartasJugador1HBox.setDisable(true);
 
-            if (!validarCartasParaJugar(jugador)) {
+            if (!validateCardsToPlay(jugador)) {//If the player has no cards to play, add the cards to the deck and eliminate it.
+                deck.addAll(jugador.getMano());
                 System.out.println(jugador.getName() + " no tiene cartas válidas para jugar y ha sido eliminado.");
-                jugadores.remove(jugador);
-                ocultarContenedorDeJugador(jugador);
-                verificarGanador();
+                players.remove(jugador);
+                hidePlayerContainer(jugador);
+                verifyWinner();
             }
         } else {
             System.out.println(jugador.getName() + " no puede jugar esta carta porque excede la suma de 50.");
@@ -396,10 +414,10 @@ public class CincuentazoGame {
     /**
      *  Check if there is a winner
      */
-    private void verificarGanador() {
-        if (jugadores.size() == 1) {
-            Player ganador = jugadores.get(0);
-            declararGanador(ganador);
+    public void verifyWinner() {
+        if (players.size() == 1) {
+            Player ganador = players.get(0);
+            declareWinner(ganador);
         }
     }
 
@@ -407,12 +425,19 @@ public class CincuentazoGame {
      *  Indicates the winner
      * @param jugador
      */
-    private void declararGanador(Player jugador) {
+    private void declareWinner(Player jugador) {
+        controller.newGameButton.setVisible(true);
+        controller.cartasJugador1HBox.setDisable(true);
+        controller.cartasJugador2HBox.setDisable(true);
+        controller.cartasJugador3VBox.setDisable(true);
+        controller.cartasJugador4VBox.setDisable(true);
+        controller.cartasJugador1HBox.setDisable(true);
+
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Ganador");
             alert.setHeaderText("¡Felicidades!");
-            alert.setContentText("¡El jugador ha ganado "+ jugadores.get(0) +"!");
+            alert.setContentText("¡El jugador ha ganado "+ players.get(0) +"!");
 
             alert.showAndWait();
         });

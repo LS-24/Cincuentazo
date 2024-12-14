@@ -18,7 +18,7 @@ public class MainController extends CincuentazoController {
     private Button iniciarJuegoButton, instruccionesButton;;
 
     @FXML
-    private TextField numeroDeJugadoresTextField;
+    public TextField numeroDeJugadoresTextField;
 
     @FXML
     private MenuItem numeroJugadoresMenu;
@@ -34,7 +34,7 @@ public class MainController extends CincuentazoController {
      * @throws IOException
      */
     @FXML
-    void onIniciarJuegoButtonClicked(MouseEvent event)throws IOException {
+    public void onIniciarJuegoButtonClicked(MouseEvent event)throws IOException {
 
         int numJugadores = obtenerNumeroJugadores();
 
@@ -65,9 +65,9 @@ public class MainController extends CincuentazoController {
                "Se jugará contra 1, 2 o 3 jugadores máquina;\n"+
                "Cada jugador siempre debe tener una mano de 4 cartas que podrá jugar en su turno, siguiendo las siguientes reglas del juego:\n"+
                "• Regla principal: En la mesa existe una suma que no debe exceder el 50 (>50).\n" +
-               "• Preparación: Del mazo de cartas se reparten 4 cartas aleatorias a cada jugador, luego se colocará una carta aleatoria en la mesa boca arriba\n" +
+               "• Preparación: Del deck de cartas se reparten 4 cartas aleatorias a cada jugador, luego se colocará una carta aleatoria en la mesa boca arriba\n" +
                "(esta carta inicia la suma de la mesa) para así el jugador humano empezar a jugar;\n"+
-               "el resto de las cartas se quedan en el mazo boca abajo para luego ser tomadas por un jugador.\n" +
+               "el resto de las cartas se quedan en el deck boca abajo para luego ser tomadas por un jugador.\n" +
                "• Turno de juego: El juego se desarrolla por turnos.\n"+
                "En su turno, el jugador debe seleccionar una carta de su mano\n"+
                "teniendo en cuenta la regla principal y que:\n" +
@@ -76,7 +76,7 @@ public class MainController extends CincuentazoController {
                "• Todas las cartas con letras J, Q, K restan 10.\n" +
                "• Todas las cartas con letra A suman 1 o 10, según convenga.\n" +
                "la suma de la mesa será modificada con el valor de la carta anterior.\n"+
-               "Luego, el mismo jugador deberá tomar una carta del mazo \n" +
+               "Luego, el mismo jugador deberá tomar una carta del deck \n" +
                "para que siempre cada jugador tenga 4 cartas en su mano.\n" +
                "En caso contrario, que el jugador no pueda jugar ninguna carta de su mano porque excede la suma de 50 en la mesa, este quedará eliminado.\n" +
                "• Fin del juego: El objetivo del juego es ser el último jugador en quedar en juego."

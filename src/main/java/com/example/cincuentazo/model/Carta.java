@@ -6,7 +6,7 @@ public class Carta {
     private int valor;
     private String nombre;
     private String imagen;
-    private Integer valorTemporal;
+    public Integer valorTemporal;
 
     /**
      * @param id
@@ -20,6 +20,9 @@ public class Carta {
         this.imagen = imagen;
         this.valor = valor;
         this.valorTemporal = null;
+    }
+
+    public Carta(String carta10, int i) {
     }
 
     /**
