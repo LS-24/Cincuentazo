@@ -106,7 +106,6 @@ public class CincuentazoController {
 
         int numJugadores = MainController.numJugadores;
         if (juego == null) {
-            System.out.println("Inicializando el juego...");
             juego = new CincuentazoGame(this, numJugadores);
         }
 
