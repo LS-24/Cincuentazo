@@ -26,18 +26,18 @@ public class PlayerTest {
     }
 
     @Test
-    public void testAgregarCarta() {
+    public void testAddLetter() {
         Carta carta = new Carta(1, "2 de corazones", "imagen/corazones/2corazones.png", 2);
-        player.agregarCarta(carta);
+        player.addLetter(carta);
         assertTrue(player.getMano().contains(carta));
     }
 
     @Test
-    public void testBorrarCarta() {
+    public void testDeleteLetter() {
         Carta carta = new Carta(1, "2 de corazones", "imagen/corazones/2corazones.png", 2);
-        player.agregarCarta(carta);
+        player.addLetter(carta);
         assertTrue(player.getMano().contains(carta));
-        player.borrarCarta(carta);
+        player.deleteLetter(carta);
         assertFalse(player.getMano().contains(carta));
     }
 
@@ -47,13 +47,13 @@ public class PlayerTest {
         Carta carta1 = new Carta(1, "2 de corazones", "imagen/corazones/2corazones.png", 2);
         Carta carta2 = new Carta(2, "3 de tréboles", "imagen/treboles/3treboles.png", 3);
 
-        player.agregarCarta(carta1);
-        player.agregarCarta(carta2);
+        player.addLetter(carta1);
+        player.addLetter(carta2);
 
         assertTrue(player.getMano().contains(carta1));
         assertTrue(player.getMano().contains(carta2));
 
-        player.borrarCarta(carta1);
+        player.deleteLetter(carta1);
 
         assertFalse(player.getMano().contains(carta1));
         assertTrue(player.getMano().contains(carta2));

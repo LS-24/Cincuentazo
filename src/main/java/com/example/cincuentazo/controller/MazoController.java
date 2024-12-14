@@ -11,14 +11,14 @@ public class MazoController {
 
     public MazoController() {
         cartas = new ArrayList<>();
-        crearMazo();
-        barajarMazo();
+        createDeck();
+        shuffleDeck();
     }
 
     /**
      * create the deck of cards
      */
-    public void crearMazo() {
+    public void createDeck() {
         String[] palos = {"hearts", "diamonds", "clubs", "spades"};
         String[] valores = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "As"};
         int id = 1;
@@ -26,7 +26,7 @@ public class MazoController {
         for (String palo : palos) {
             for (String valor : valores) {
 
-                int valorNumerico = obtenerValor(valor);
+                int valorNumerico = getValue(valor);
 
                 String nombre = valor + " de " + palo;
 
@@ -37,7 +37,7 @@ public class MazoController {
         }
     }
 
-    public void barajarMazo() {
+    public void shuffleDeck() {
         Collections.shuffle(cartas);
     }
 
@@ -47,7 +47,7 @@ public class MazoController {
      * @return
      * returns the corresponding value
      */
-    public int obtenerValor(String valor) {
+    public int getValue(String valor) {
         switch (valor) {
             case "J":
             case "Q":
@@ -66,7 +66,7 @@ public class MazoController {
      *
      * @return
      */
-    public ArrayList<Carta> getCartas() {
+    public ArrayList<Carta> getLetters() {
         return cartas;
     }
 
@@ -75,7 +75,7 @@ public class MazoController {
      * @param id
      * @return
      */
-    public Carta getCartaPorId(int id) {
+    public Carta getletterForId(int id) {
         for (Carta carta : cartas) {
             if (carta.getId() == id) {
                 return carta;

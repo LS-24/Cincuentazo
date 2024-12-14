@@ -42,7 +42,7 @@ public class Player {
      * @param carta
      * adds a card to the player's hand
      */
-    public void agregarCarta(Carta carta) {
+    public void addLetter(Carta carta) {
         mano.add(carta);
     }
 
@@ -51,10 +51,10 @@ public class Player {
      * @param carta
      * remove a card from the player's hand
      */
-    public void borrarCarta(Carta carta) {
+    public void deleteLetter(Carta carta) {
         if (carta != null && mano.contains(carta)) {
             mano.remove(carta);
-            System.out.println("Carta " + carta.getNombre() + " eliminada correctamente.");
+            System.out.println("Carta " + carta.getName() + " eliminada correctamente.");
         } else {
             System.out.println("La carta no se encuentra en la mano.");
         }

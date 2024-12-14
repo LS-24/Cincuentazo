@@ -39,7 +39,7 @@ public class Carta {
      *
      * @return returns card name
      */
-    public String getNombre() {
+    public String getName() {
         return nombre;
     }
 
@@ -53,11 +53,11 @@ public class Carta {
     }
 
     /**
-     * getValor
+     * getValue
      *
      * @return returns value of the card
      */
-    public int getValor() {
+    public int getValue() {
         if (valorTemporal != null) {
             return valorTemporal;
         }
